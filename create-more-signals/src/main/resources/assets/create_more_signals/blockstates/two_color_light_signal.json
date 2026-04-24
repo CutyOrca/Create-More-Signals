@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "create_more_signals:block/two_color_light_signal/block",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "create_more_signals:block/two_color_light_signal/block"
+    },
+    "facing=south": {
+      "model": "create_more_signals:block/two_color_light_signal/block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "create_more_signals:block/two_color_light_signal/block",
+      "y": 270
+    }
+  }
+}
