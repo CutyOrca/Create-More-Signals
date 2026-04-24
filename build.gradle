@@ -1,0 +1,99 @@
+plugins {
+    id 'eclipse'
+    id 'net.neoforged.moddev' version '2.0.107'
+}
+
+version = '1.0.1a'
+base.archivesName = "create_more_signals"
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+repositories {
+    // Add here additional repositories if required by some of the dependencies below.
+    maven { url = "https://maven.createmod.net" } // Create, Ponder, Flywheel
+    maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" } // ForgeConfigAPIPort
+    maven { url = "https://mvn.devos.one/snapshots" } // Registrate
+    maven { url = "https://maven.blamejared.com" } // JEI, Vazkii's Mods
+    maven {
+        //location of the maven for curios api
+        url = "https://maven.theillusivec4.top/"
+    }
+    maven {
+        // Shedaniel's maven (Architectury API)
+        url = "https://maven.architectury.dev"
+        content {
+            includeGroup "dev.architectury"
+        }
+    }
+    maven {
+        url "https://maven.latvian.dev/releases"
+        content {
+            includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
+        }
+    }
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+}
+
+dependencies {
+
+
+    implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
+    implementation("net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}")
+    compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}")
+    runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
+    implementation("com.tterrag.registrate:Registrate:${registrate_version}")
+
+    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    // at runtime, use the full JEI jar for NeoForge
+    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+
+    implementation("curse.maven:large-ore-deposits-318833:7301758")
+    implementation("curse.maven:forgeendertech-244844:7070495")
+    implementation("curse.maven:createaddition-439890:7262496")
+
+
+    // For more info:
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+}
+
+neoForge {
+    version = "21.1.190"
+
+    runs {
+        client {
+            client()
+
+            def mcreatorJvmOptions = System.getenv('MCREATOR_JVM_OPTIONS')
+            if (mcreatorJvmOptions) {
+                mcreatorJvmOptions.split("\\s+").findAll { it.trim() }.each { arg ->
+                    jvmArgument(arg)
+                }
+            }
+        }
+        server {
+            server()
+        }
+
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        mcreator {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}

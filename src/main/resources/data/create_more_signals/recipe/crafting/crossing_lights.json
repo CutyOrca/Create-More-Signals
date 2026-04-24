@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "create_more_signals:signal_pole"
+    },
+    "L": {
+      "item": "create:rose_quartz_lamp"
+    }
+  },
+  "pattern": [
+    " G ",
+    "LGL",
+    " G "
+  ],
+  "result": {
+    "count": 1,
+    "id": "create_more_signals:crossing_lights"
+  }
+}
